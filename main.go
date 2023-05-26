@@ -25,7 +25,14 @@ func zettelCreate(writer http.ResponseWriter, reader *http.Request) {
 	HandleError(err)
 }
 
+// serveFirstPage serves the first page seen when a visitor visits Zettelkasten.
 func serveFirstPage(writer http.ResponseWriter, reader *http.Request) {
+	// if a requested URL path matches '/', return. If not, return http.NotFound().
+	if reader.URL.Path != "/" {
+		http.NotFound(writer, reader)
+		return
+	}
+
 	_, err := writer.Write([]byte("Displaying a second page for Zettelkasten..."))
 	HandleError(err)
 }
@@ -42,6 +49,6 @@ func main() {
 	mux.HandleFunc("/zettel/view", zettelView)
 
 	log.Println("Starting the server at port 8082")
-	err := http.ListenAndServe("localhost:8082", nil)
+	err := http.ListenAndServe("localhost:8082", mux)
 	log.Fatal(err)
 }
