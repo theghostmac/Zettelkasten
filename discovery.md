@@ -14,3 +14,15 @@ mux := http.NewServeMux()
 mux.HandleFunc("foo.example.org/", fooHandler)
 mux.HandleFunc("foo", fooHandler)
 ```
+5. We can allow only POST (for example), using:
+```go
+func handler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POSt" {
+		w.Header().Set("Allow", "POST")
+		w.WrieHeader(405)
+		w.Write([]byte{"method is not allowed..."})
+		return
+    }
+	w.Write([]byte("doing this function thing now..."))
+}
+```
