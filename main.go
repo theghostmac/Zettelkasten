@@ -24,10 +24,14 @@ func zettelCreate(writer http.ResponseWriter, reader *http.Request) {
 	// if the method is not a POST request, return an error message.
 	if reader.Method != "POST" {
 		// use Header().Set() method to add a "Allow", "POST" map to the header.
-		writer.Header().Set("Allow", "POST")
-		writer.WriteHeader(405)
-		_, err := writer.Write([]byte("That HTTP method is not supported on this handler function."))
-		HandleError(err)
+		writer.Header().Set("Allow", http.MethodPost) // replaced "POST" with net/http constant: http.MethodPost.
+		/* REPLACE ENTIRE:
+			writer.WriteHeader(405)
+			_, err := writer.Write([]byte("That HTTP method is not supported on this handler function."))
+			HandleError(err)
+		WITH:
+		*/
+		http.Error(writer, "Method is not supported", http.StatusMethodNotAllowed) // http.Error is a shortcut.
 		// return from the function so the subsequent code is not executed.
 		return
 	}
