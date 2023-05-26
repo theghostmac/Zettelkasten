@@ -21,6 +21,14 @@ func zettelView(writer http.ResponseWriter, reader *http.Request) {
 
 // zettelCreate gives you the power to create new zettel on your Zettelkasten.
 func zettelCreate(writer http.ResponseWriter, reader *http.Request) {
+	// if the method is not a POST request, return an error message.
+	if reader.Method != "POST" {
+		writer.WriteHeader(405)
+		_, err := writer.Write([]byte("That HTTP method is not supported on this handler function."))
+		HandleError(err)
+		// return from the function so the subsequent code is not executed.
+		return
+	}
 	_, err := writer.Write([]byte("Create a new zettel here..."))
 	HandleError(err)
 }
