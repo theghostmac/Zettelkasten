@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 // HandleError receives and handles all errors in this project.
@@ -13,9 +14,16 @@ func HandleError(err error) {
 	}
 }
 
-// zettelView defines a handler function for viewing your zettels.
+// zettelView will view a given zettel via id query from the user.
 func zettelView(writer http.ResponseWriter, reader *http.Request) {
-	_, err := writer.Write([]byte("Hello from inside the simple server..."))
+	// receive the id value and convert to an integer. If it's not an integer or
+	// if it's not non-zero positive integer, return a 404 page not found response.
+	id, err := strconv.Atoi(reader.URL.Query().Get("id"))
+	if err != nil || id < 1 {
+		http.NotFound(writer, reader)
+		return
+	}
+	_, err = fmt.Fprintf(writer, "Display a specific zettel with ID %d", id)
 	HandleError(err)
 }
 
