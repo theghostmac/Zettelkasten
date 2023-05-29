@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"html/template"
+	"log"
 	"net/http"
 	"strconv"
 )
@@ -21,8 +23,23 @@ func serveFirstPage(writer http.ResponseWriter, reader *http.Request) {
 		return
 	}
 
-	_, err := writer.Write([]byte("Displaying a second page for Zettelkasten..."))
-	HandleError(err)
+	pageFiles := []string{
+		"./assets/html/base.tmpl",
+		"./assets/html/pages/home.tmpl",
+	}
+
+	uiTemplates, err := template.ParseFiles(pageFiles...)
+	if err != nil {
+		log.Print(err.Error())
+		http.Error(writer, "Internal Server Error", 500)
+		return
+	}
+
+	err = uiTemplates.ExecuteTemplate(writer, "base", nil)
+	if err != nil {
+		log.Print(err.Error())
+		http.Error(writer, "Internal Server Error", 500)
+	}
 }
 
 // zettelView will view a given zettel via id query from the user.
