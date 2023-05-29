@@ -24,9 +24,9 @@ func serveFirstPage(writer http.ResponseWriter, reader *http.Request) {
 	}
 
 	pageFiles := []string{
-		"../../assets/html/base.tmpl",
-		"../../assets/html/pages/home.tmpl",
-		"../../assets/html/partials/nav.tmpl",
+		"./assets/html/base.tmpl",
+		"./assets/html/pages/home.tmpl",
+		"./assets/html/partials/nav.tmpl",
 	}
 
 	uiTemplates, err := template.ParseFiles(pageFiles...)

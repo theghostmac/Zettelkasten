@@ -26,3 +26,5 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("doing this function thing now..."))
 }
 ```
+
+6. GO's `http.FileServer()` sanitizes all request path, and also supports [range requests](https://benramsey.com/blog/2008/05/206-partial-content-and-range-requests/).
