@@ -28,3 +28,5 @@ func handler(w http.ResponseWriter, r *http.Request) {
 ```
 
 6. GO's `http.FileServer()` sanitizes all request path, and also supports [range requests](https://benramsey.com/blog/2008/05/206-partial-content-and-range-requests/).
+7. The files are served from RAM and not from disc, with performance as a tradeoff.
+8. 
