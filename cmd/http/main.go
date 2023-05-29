@@ -8,6 +8,12 @@ import (
 func main() {
 	// create a multiplexer for first page.
 	mux := http.NewServeMux()
+
+	// create a fileServer and register it using mux.Handle() as a handler for all URL paths in /static/.
+	fileServer := http.FileServer(http.Dir("./assets/static/"))
+	// also strip the /static prefix away before the request reaches the file server.
+	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
+
 	mux.HandleFunc("/", serveFirstPage)
 
 	// create yet another multiplexer for creating zettels.
