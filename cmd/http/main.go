@@ -1,11 +1,16 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"net/http"
 )
 
 func main() {
+	// Define a new cli flag with 'addr' to host a port.
+	addr := flag.String("addr", ":4000", "HTTP network address")
+	// Parse the flag to the CLI flag.
+	flag.Parse()
 	// create a multiplexer for first page.
 	mux := http.NewServeMux()
 
@@ -22,7 +27,7 @@ func main() {
 	// create yet another multiplexer for viewing zettels.
 	mux.HandleFunc("/zettel/view", zettelView)
 
-	log.Println("Starting the server at port 8082")
-	err := http.ListenAndServe("localhost:8082", mux)
+	log.Printf("Starting the server at port %s", *addr)
+	err := http.ListenAndServe(*addr, mux)
 	log.Fatal(err)
 }
