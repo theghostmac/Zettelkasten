@@ -25,7 +25,10 @@ To install and run Zettelkasten locally, follow these steps:
 4. Build the application: `go build`
 5. Run the application: `./zettelkasten`
 
-By default, the application will be accessible at `http://localhost:8082`.
+By default, the application will be accessible at `http://localhost:8082`, but you can use a port of your choice with:
+```shell
+go run ./cmd/http -addr=":<choice>"
+```
 
 ## Configuration (Coming soon 🔜)
 
