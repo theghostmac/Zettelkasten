@@ -29,7 +29,6 @@ func main() {
 
 	mux.HandleFunc("/", serveFirstPage)
 
-	// create yet another multiplexer for creating zettels.
 	mux.HandleFunc("/zettel/create", zettelCreate)
 
 	// create yet another multiplexer for viewing zettels.
