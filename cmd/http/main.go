@@ -13,11 +13,11 @@ func main() {
 	// Parse the flag to the CLI flag.
 	flag.Parse()
 
-	// Create a logger for INFO
+	// Create a logger for INFO to Stdout.
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 
-	// Create a logger for ERROR
-	errorLog := log.New(os.Stderr, "ERROR\t", log.Ldate|log.Ltime|log.Ltime)
+	// Create a logger for ERROR to Stderr.
+	errorLog := log.New(os.Stderr, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 
 	// create a multiplexer for first page.
 	mux := http.NewServeMux()
