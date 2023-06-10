@@ -16,7 +16,7 @@ func HandleError(err error) {
 }
 
 // serveFirstPage serves the first page seen when a visitor visits Zettelkasten.
-func serveFirstPage(writer http.ResponseWriter, reader *http.Request) {
+func (app *application) serveFirstPage(writer http.ResponseWriter, reader *http.Request) {
 	// if a requested URL path matches '/', return. If not, return http.NotFound().
 	if reader.URL.Path != "/" {
 		http.NotFound(writer, reader)
@@ -44,7 +44,7 @@ func serveFirstPage(writer http.ResponseWriter, reader *http.Request) {
 }
 
 // zettelView will view a given zettel via id query from the user.
-func zettelView(writer http.ResponseWriter, reader *http.Request) {
+func (app *application) zettelView(writer http.ResponseWriter, reader *http.Request) {
 	// receive the id value and convert to an integer. If it's not an integer or
 	// if it's not non-zero positive integer, return a 404 page not found response.
 	id, err := strconv.Atoi(reader.URL.Query().Get("id"))
@@ -57,7 +57,7 @@ func zettelView(writer http.ResponseWriter, reader *http.Request) {
 }
 
 // zettelCreate gives you the power to create new zettel on your Zettelkasten.
-func zettelCreate(writer http.ResponseWriter, reader *http.Request) {
+func (app *application) zettelCreate(writer http.ResponseWriter, reader *http.Request) {
 	// if the method is not a POST request, return an error message.
 	if reader.Method != "POST" {
 		// use Header().Set() method to add a "Allow", "POST" map to the header.
