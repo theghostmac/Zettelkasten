@@ -26,15 +26,18 @@ func main() {
 	fileServer := http.FileServer(http.Dir("./assets/static/"))
 	// also strip the /static prefix away before the request reaches the file server.
 	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
-
 	mux.HandleFunc("/", serveFirstPage)
-
 	mux.HandleFunc("/zettel/create", zettelCreate)
-
 	// create yet another multiplexer for viewing zettels.
 	mux.HandleFunc("/zettel/view", zettelView)
 
+	serverProp := &http.Server{
+		Addr:     *addr,
+		ErrorLog: errorLog,
+		Handler:  mux,
+	}
+
 	infoLog.Printf("Starting the server at port %s", *addr)
-	err := http.ListenAndServe(*addr, mux)
+	err := serverProp.ListenAndServe()
 	errorLog.Fatal(err)
 }
